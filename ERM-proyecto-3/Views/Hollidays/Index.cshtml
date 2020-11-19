@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ERM_proyecto_3.Models.hollidays>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Employee> UserManager
+@inject SignInManager<Employee> SignInManager
+
+@{
+    Employee employee = await UserManager.GetUserAsync(User);
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-primary mb-4" asp-action="Create">Request holidays</a>
+</p>
+@{
+    int restantDaysOfHolidays = employee.RestantDaysOfhollidays;
+    if (restantDaysOfHolidays == 1)
+    {
+        <p>Te queda @restantDaysOfHolidays día de vacaciones.</p>
+    }
+    else if (restantDaysOfHolidays == 0)
+    {
+        <p>No te quedan días de vacaciones</p>
+    }
+    else if (restantDaysOfHolidays < 0)
+    {
+        <p>Debes días de vacaciones</p>
+    }
+    else
+    {
+        <p>Te quedan @restantDaysOfHolidays días de vacaciones.</p>
+    }
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aproved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @foreach (var item in Model.Where(id => id.EmployeeId == employee.Id))
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aproved)
+            </td>
+
+
+
+
+            @if (User.IsInRole("manager"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+        </tr>
+            }
+        }
+
+        </tbody>
+    </table>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Employee>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Employee> UserManager
+@{
+    ViewData["Title"] = "ModifyEmployees";
+}
+
+<h1>Employees Admin</h1>
+
+<a class="btn btn-primary mb-4" asp-area="Identity" asp-page="/Account/Register">Create new employee</a>
+
+<div class="allCards">
+    @foreach (Employee item in Model)
+    {
+        <div class="align-items-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.EmployeeName) @Html.DisplayFor(modelItem => item.EmployeeSurname)</h5>
+                    <p class="card-text">Restant days of hollidays: @Html.DisplayFor(modelItem => item.RestantDaysOfhollidays)</p>
+                    <p class="card-text">Mail: @Html.DisplayFor(modelItem => item.UserName)</p>
+                    @{
+                        bool isAdmin = await UserManager.IsInRoleAsync(item, "manager");
+                        if (isAdmin)
+                        {
+
+                            <a class="btn btn-primary" asp-action="RemoveManager" asp-route-id="@item.Id"> Remove manager role </a>
+                        }
+
+                        else
+                        {
+                            <a class="btn btn-primary" asp-action="MakeManager" asp-route-id="@item.Id"> Make manager </a>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

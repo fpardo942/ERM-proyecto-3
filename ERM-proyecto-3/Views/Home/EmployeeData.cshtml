@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Employee>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Employee> UserManager
+@{
+    ViewData["Title"] = "EmployeeData";
+    Employee employee = await UserManager.GetUserAsync(User);
+}
+
+<h1>My data</h1>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Html.DisplayFor(modelItem => employee.EmployeeName) @Html.DisplayFor(modelItem => employee.EmployeeSurname)</h5>
+        <p class="card-text">Restant days of hollidays: @Html.DisplayFor(modelItem => employee.RestantDaysOfhollidays)</p>
+        <p class="card-text">Mail: @Html.DisplayFor(modelItem => employee.UserName)</p>
+        <p>
+            @{
+                bool isAdmin = await UserManager.IsInRoleAsync(employee, "manager");
+                if (isAdmin)
+                {
+
+                <p>Position: Manager</p>
+            }
+
+            else
+            {
+                <p>Position: Employee</p>
+            }
+
+            }
+            </p>
+            <p>
+                @if (User.IsInRole("manager"))
+                {
+                    <td>
+                        <a asp-route="C:\Users\frapa\source\repos\ERM-proyecto-3\ERM-proyecto-3\Areas\Identity\Pages\Account\Manage\Index.cshtml">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+                    </td>
+                }
+            </p>
+        </div>
+</div>

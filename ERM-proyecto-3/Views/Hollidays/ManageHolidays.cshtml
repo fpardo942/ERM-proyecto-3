@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ERM_proyecto_3.Models.hollidays>
+@using Microsoft.AspNetCore.Identity
+@using ERM_proyecto_3.Models
+@inject UserManager<Employee> UserManager
+
+
+@{
+    ViewData["Title"] = "ManageHolidays";
+
+    <h1>Holidays Admin</h1>  
+
+if(Model.Count() == 0)
+{
+    <p>No hay datos para mostrar</p>
+}
+
+else 
+{
+
+    <div class="allCards">
+        @foreach (var item in Model)
+        {
+            Employee employee = await UserManager.FindByIdAsync(item.EmployeeId);
+            <div class="align-items-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => employee.EmployeeName) @Html.DisplayFor(modelItem => employee.EmployeeSurname)</h5>
+                        <p class="card-text">Start date: @Html.DisplayFor(modelItem => item.StartDate)</p>
+                        <p class="card-text">End date: @Html.DisplayFor(modelItem => item.EndDate)</p>
+                        <p class="card-text">Restant days of hollidays: @Html.DisplayFor(modelItem => employee.RestantDaysOfhollidays)</p>
+
+                        @{
+                            bool holidayAproved = item.Aproved;
+                            if (holidayAproved)
+                            {
+                                <p class="card-text">Holidays aproved</p>
+                            }
+                            else
+                            {
+                                <p class="card-text">Holidays denied</p>
+                            }
+
+
+
+
+                            if (holidayAproved)
+                            {
+
+                                <a class="btn btn-primary" asp-action="DenyHolidays" asp-route-id="@item.Id"> Deny holidays </a>
+                            }
+
+                            else
+                            {
+                                <p>
+                                    <a class="btn btn-primary" asp-action="AproveHolidays" asp-route-id="@item.Id"> Aprove holidays </a>
+                                </p>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div> 
+     }
+}
+                        
