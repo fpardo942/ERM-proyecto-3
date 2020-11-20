@@ -85,7 +85,7 @@ namespace ERM_proyecto_3.Controllers
                 else
                 {
                     bool action = false;
-                    return View(action);
+                    return View("ErrorView");
                 }
                 
             }
