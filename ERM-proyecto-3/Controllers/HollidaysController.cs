@@ -71,7 +71,7 @@ namespace ERM_proyecto_3.Controllers
                 Employee employee = await _employeeManager.GetUserAsync(User); //added
                 hollidays.EmployeeId = employee.Id;
                 totalDays = Convert.ToInt32((hollidays.EndDate - hollidays.StartDate).TotalDays);
-                if (employee.RestantDaysOfhollidays > totalDays)
+                if (employee.RestantDaysOfhollidays > totalDays && hollidays.StartDate > DateTime.Now)
                 {
                     if (hollidays.Aproved)
                     {
@@ -82,7 +82,12 @@ namespace ERM_proyecto_3.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                return View();
+                else
+                {
+                    bool action = false;
+                    return View(action);
+                }
+                
             }
             ViewData["EmployeeId"] = new SelectList(_context.Users, "Id", "Id", hollidays.EmployeeId);
             return View(hollidays);

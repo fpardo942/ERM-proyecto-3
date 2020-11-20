@@ -57,6 +57,10 @@ namespace ERM_proyecto_3.Areas.Identity.Pages.Account
             public string EmployeeSurname { get; set; }
 
             [Required]
+            [Display(Name = "Image")]
+            public string Image { get; set; }
+
+            [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Date of birth")]
             public DateTime DateOfBirth { get; set; }
@@ -85,6 +89,7 @@ namespace ERM_proyecto_3.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+
             
 
         }
@@ -105,7 +110,8 @@ namespace ERM_proyecto_3.Areas.Identity.Pages.Account
                 var user = new Employee { UserName = Input.Email, Email = Input.Email, EmployeeName = Input.EmployeeName, 
                                           EmployeeSurname = Input.EmployeeSurname, DateOfBirth = Input.DateOfBirth,
                                           Phone = Input.Phone, TotalDaysOfhollidays = Input.TotalDaysOfhollidays,
-                                          RestantDaysOfhollidays = Input.TotalDaysOfhollidays};
+                                          RestantDaysOfhollidays = Input.TotalDaysOfhollidays,
+                                          Image = Input.Image};
 
 
                 

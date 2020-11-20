@@ -9,42 +9,24 @@
 
 }
 
-<h1>Index</h1>
+<h1>My Holidays</h1>
+
 
 <p>
     <a class="btn btn-primary mb-4" asp-action="Create">Request holidays</a>
 </p>
-@{
-    int restantDaysOfHolidays = employee.RestantDaysOfhollidays;
-    if (restantDaysOfHolidays == 1)
-    {
-        <p>Te queda @restantDaysOfHolidays día de vacaciones.</p>
-    }
-    else if (restantDaysOfHolidays == 0)
-    {
-        <p>No te quedan días de vacaciones</p>
-    }
-    else if (restantDaysOfHolidays < 0)
-    {
-        <p>Debes días de vacaciones</p>
-    }
-    else
-    {
-        <p>Te quedan @restantDaysOfHolidays días de vacaciones.</p>
-    }
-}
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                <p class="mb-0">From</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                <p class="mb-0">To</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aproved)
+                <p class="mb-0">Status</p>
             </th>
             <th></th>
         </tr>
@@ -54,30 +36,57 @@
         {
             @foreach (var item in Model.Where(id => id.EmployeeId == employee.Id))
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aproved)
-            </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @{
+                            if (item.Aproved)
+                            {
+                                <p class="font-weight-bold text-success">Aproved</p>
+                            }
+                            else
+                            {
+                                <p class="font-weight-bold text-danger">Denied</p>
+                            }
+                        }
+                    </td>
 
 
-
-
-            @if (User.IsInRole("manager"))
-            {
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            }
-        </tr>
+                    @if (User.IsInRole("manager"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    }
+                </tr>
             }
         }
 
-        </tbody>
-    </table>
+
+    </tbody>
+</table>
+@{
+    int restantDaysOfHolidays = employee.RestantDaysOfhollidays;
+    if (restantDaysOfHolidays == 1)
+    {
+        <h5>Te queda @restantDaysOfHolidays día de vacaciones</h5>
+    }
+    else if (restantDaysOfHolidays == 0)
+    {
+        <h5>No te quedan días de vacaciones</h5>
+    }
+    else if (restantDaysOfHolidays < 0)
+    {
+        <h5>Debes días de vacaciones</h5>
+    }
+    else
+    {
+        <h5>Te quedan @restantDaysOfHolidays días de vacaciones</h5>
+    }
+}

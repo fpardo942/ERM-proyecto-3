@@ -16,16 +16,26 @@ namespace ERM_proyecto_3.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Employee> _employeeManager;
-
-        public HomeController(ILogger<HomeController> logger, UserManager<Employee> employeeManager)
+        private readonly SignInManager<Employee> _signInManager;
+        public HomeController(ILogger<HomeController> logger, UserManager<Employee> employeeManager, SignInManager<Employee> signInManager)
         {
             _logger = logger;
             _employeeManager = employeeManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
         {
-            return View();
+            bool isSigned = _signInManager.IsSignedIn(User);
+            if (isSigned)
+            {
+                return View();
+            }
+
+            else 
+            {
+                return Redirect("Identity/Account/Login");
+            }
         }
 
         public IActionResult Privacy()

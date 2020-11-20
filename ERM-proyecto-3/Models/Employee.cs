@@ -14,6 +14,7 @@ namespace ERM_proyecto_3.Models
         public int Phone { get; set; }
         public int TotalDaysOfhollidays { get; set; }
         public int RestantDaysOfhollidays { get; set; }
+        public string Image { get; set; }
         public List<hollidays> hollidaysList { get; set; }
     }
 }

@@ -21,23 +21,24 @@ else
         @foreach (var item in Model)
         {
             Employee employee = await UserManager.FindByIdAsync(item.EmployeeId);
-            <div class="align-items-center">
+            <div class="align-items-center text-center">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => employee.EmployeeName) @Html.DisplayFor(modelItem => employee.EmployeeSurname)</h5>
-                        <p class="card-text">Start date: @Html.DisplayFor(modelItem => item.StartDate)</p>
-                        <p class="card-text">End date: @Html.DisplayFor(modelItem => item.EndDate)</p>
-                        <p class="card-text">Restant days of hollidays: @Html.DisplayFor(modelItem => employee.RestantDaysOfhollidays)</p>
+                        <img class="card-img-top" src="@employee.Image">
+                        <h5 class="card-title font-weight-bold">@Html.DisplayFor(modelItem => employee.EmployeeName) @Html.DisplayFor(modelItem => employee.EmployeeSurname)</h5>
+                        <p class="card-text"><strong>From</strong> <br> @Html.DisplayFor(modelItem => item.StartDate)</p>
+                        <p class="card-text"><strong>To</strong> <br> @Html.DisplayFor(modelItem => item.EndDate)</p>
+                        <p class="card-text"><strong>Restant days of hollidays</strong> <br> @Html.DisplayFor(modelItem => employee.RestantDaysOfhollidays)</p>
 
                         @{
                             bool holidayAproved = item.Aproved;
                             if (holidayAproved)
                             {
-                                <p class="card-text">Holidays aproved</p>
+                                <p class="card-text text-success font-weight-bold">Holidays aproved</p>
                             }
                             else
                             {
-                                <p class="card-text">Holidays denied</p>
+                                <p class="card-text text-danger font-weight-bold">Holidays denied</p>
                             }
 
 

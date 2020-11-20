@@ -1,7 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Employee>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Employee> UserManager
+@inject SignInManager<Employee> SignInManager
 
-<div class="text-center">
-    <h1 class="display-4">ERM</h1>
-</div>
+@{
+    ViewData["Title"] = "Home Page";
+    Employee employee = await UserManager.GetUserAsync(User);
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="text-center">
+            <h1 class="display-4">ERM</h1>
+            <p>In this web app you will manage you holidays</p>
+        </div>
+    }
+
+    else
+    {
+
+       
+    }
+
+}
